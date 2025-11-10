@@ -10,7 +10,7 @@ import (
 func TestUpsertUser(t *testing.T) {
 	mockCtl := gomock.NewController(t)
 	defer mockCtl.Finish()
-
+	// Given
 	tests := []struct {
 		name                 string
 		user                 User
@@ -44,8 +44,10 @@ func TestUpsertUser(t *testing.T) {
 			if test.specifyFunctionCalls != nil {
 				test.specifyFunctionCalls(mockRepo)
 			}
+			// When
 			userService := UserService{repo: mockRepo}
 			err := userService.Upsert(test.user)
+			// Then
 			assert.Equal(t, test.expectedError, err)
 		})
 	}

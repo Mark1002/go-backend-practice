@@ -7,7 +7,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/mark1002/db_connection"
+	"github.com/mark1002/practice/db_connection"
 )
 
 func simulateClientAborts(pool *db_connection.DBPool, ch chan<- struct{}) {
