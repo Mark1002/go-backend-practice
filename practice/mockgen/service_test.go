@@ -1,6 +1,7 @@
 package mockgen
 
 import (
+	"errors"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -51,4 +52,20 @@ func TestUpsertUser(t *testing.T) {
 			assert.Equal(t, test.expectedError, err)
 		})
 	}
+}
+
+func TestDeleteUser(t *testing.T) {
+	mockCtl := gomock.NewController(t)
+	defer mockCtl.Finish()
+	// Given
+	mockRepo := NewMockIUserRepo(mockCtl)
+	mockRepo.EXPECT().Delete(1).Do(func(id int) {
+		t.Logf("Deleting user with id: %d", id)
+	}).Return(errors.New("Fail to delete")).Times(1)
+	// When
+	userService := UserService{repo: mockRepo}
+	err := userService.DeleteUserByID(1)
+	// Then
+	assert.EqualError(t, err, "Fail to delete")
+
 }

@@ -22,3 +22,11 @@ func (u *UserService) Upsert(user User) error {
 
 	return u.repo.Update(user.ID, user)
 }
+
+func (u *UserService) GetUserByID(id int) (*User, error) {
+	return u.repo.GetUserByID(id)
+}
+
+func (u *UserService) DeleteUserByID(id int) error {
+	return u.repo.Delete(id)
+}
